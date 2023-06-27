@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favorite Food</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      background-color: #fce4ec; /* pastel pink */
+      background-image: url('background-image.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+    h1 {
+      color: #ff80ab; /* pastel pink */
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .form-group label {
+      font-weight: bold;
+      color: #c2185b; /* pastel pink */
+      display: block;
+      margin-bottom: 5px;
+    }
+    .form-control {
+      border-color: #c2185b; /* pastel pink */
+      background-color: transparent;
+      color: #c2185b; /* pastel pink */
+      padding-left: 40px;
+      font-family: 'Arial', sans-serif;
+      font-size: 16px;
+    }
+    .form-control:focus {
+      box-shadow: 0 0 0 0.2rem rgba(194, 24, 91, 0.25); /* pastel pink */
+    }
+    .btn-custom {
+      background-color: #ff80ab; /* pastel pink */
+      color: white;
+      margin-right: 10px;
+    }
+    .btn-custom:hover {
+      background-color: #f48fb1; /* darker shade of pastel pink */
+    }
+    .favorite-list {
+      max-height: 300px;
+      overflow-y: auto;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 5px;
+      padding: 10px;
+    }
+    .favorite-item {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+    .favorite-item i {
+      margin-right: 10px;
+    }
+    .favorite-item p {
+      margin: 0;
+      flex-grow: 1;
+      text-align: center;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Favorite Food</h1>
+    <form id="favoriteFoodsForm">
+        <label for="favoriteFoodInput">Add Favorite Food:</label>
+        <div class="input-group">
+          <i class="fas fa-utensils" style="position: absolute; top: 10px; left: 10px;"></i>
+          <input type="text" class="form-control" id="favoriteFoodInput">
+          <button type="submit" class="btn btn-custom"><i class="fas fa-plus"></i> Add</button>
+        </div>
+    </form>
+
+    <ul id="favoriteList">
+      <!-- Favorite foods will be dynamically added here -->
+   </ul>
+
+  <script>
+    
+    // Retrieve favorite things from localStorage
+    const favoriteFoods = JSON.parse(localStorage.getItem('favoriteFoods')) || [];
+
+      // Add event listener to form submission
+    document.getElementById('favoriteFoodsForm').addEventListener('submit', function (event) {
+          event.preventDefault(); // Prevent form submission
+    
+          // Retrieve input value
+          const favoriteFoodInput = document.getElementById('favoriteFoodInput');
+          const favoriteFood = favoriteFoodInput.value.trim();
+    
+          if (favoriteFood !== '') {
+        favoriteFoods.push(favoriteFood);
+        localStorage.setItem('favoriteFoods', JSON.stringify(favoriteFoods));
+            renderFavoriteFoods();
+            favoriteFoodInput.value = '';
+      }
+        });
+
+   
+    // Function to render favorite foods
+    function renderFavoriteFoods() {
+      favoriteList.innerHTML = '';
+
+      if (favoriteFoods.length === 0) {
+        favoriteList.innerHTML = '<p>No favorite foods added.</p>';
+      } else {
+        favoriteFoods.forEach((favoriteFood, index) => {
+          const listItem = document.createElement('li');
+          listItem.textContent = favoriteFood;
+          favoriteList.appendChild(listItem);
+
+          const deleteButton = document.createElement('button');
+          deleteButton.type = 'button';
+          deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');
+          deleteButton.style.marginLeft = '20px';
+          deleteButton.style.marginTop = '5px';
+          deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+          deleteButton.addEventListener('click', () => {
+            favoriteFoods.splice(index, 1);
+            localStorage.setItem('favoriteFoods', JSON.stringify(favoriteFoods));
+            renderFavoriteFoods();
+          });
+
+          listItem.appendChild(deleteButton);
+        });
+      }
+    }
+
+    // Initial render
+    renderFavoriteFoods();
+  </script>
+</body>
+</html>
