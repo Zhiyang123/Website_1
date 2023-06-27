@@ -9,10 +9,6 @@
   <style>
     body {
       background-color: #e6f7ff; /* pastel blue */
-      background-image: url('background-image.jpg');
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
     }
     h1 {
       color: #ff9e80; /* pastel orange */
@@ -81,65 +77,65 @@
           <input type="text" class="form-control" id="favoriteThingInput">
           <button type="submit" class="btn btn-custom"><i class="fas fa-plus"></i> Add</button>
         </div>
-      </form>
-    
-      <ul id="favoriteList">
-        <!-- Favorite things will be dynamically added here -->
-      </ul>
-    
-      <script>
-        // Retrieve favorite things from localStorage
-        const favoriteThings = JSON.parse(localStorage.getItem('favoriteThings')) || [];
-    
-        // Add event listener to form submission
-        document.getElementById('favoriteThingsForm').addEventListener('submit', function (event) {
-          event.preventDefault(); // Prevent form submission
-    
-          // Retrieve input value
-          const favoriteThingInput = document.getElementById('favoriteThingInput');
-          const favoriteThing = favoriteThingInput.value.trim();
-    
-          if (favoriteThing !== '') {
-            favoriteThings.push(favoriteThing);
-            localStorage.setItem('favoriteThings', JSON.stringify(favoriteThings));
-            renderFavoriteThings();
-            favoriteThingInput.value = '';
-          }
-        });
+    </form>
 
-    
-        // Function to render favorite things
-        function renderFavoriteThings() {
-          const favoriteList = document.getElementById('favoriteList');
-          favoriteList.innerHTML = '';
-    
-          if (favoriteThings.length === 0) {
-            favoriteList.innerHTML = '<p>No favorite things added.</p>';
-          } else {
-            favoriteThings.forEach((favoriteThing, index) => {
-              const listItem = document.createElement('li');
-              listItem.textContent = favoriteThing;
-              favoriteList.appendChild(listItem);
+    <ul id="favoriteList">
+      <!-- Favorite things will be dynamically added here -->
+    </ul>
 
-              const deleteButton = document.createElement('button');
-          deleteButton.type = 'button';
-          deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');
-          deleteButton.style.marginLeft = '20px';
-          deleteButton.style.marginTop = '5px';
-          deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
-          deleteButton.addEventListener('click', () => {
-            favoriteThings.splice(index, 1);
-            localStorage.setItem('favoriteThings', JSON.stringify(favoriteThings));
-            renderFavoriteThings();
-          });
+    <script>
+      // Retrieve favorite things from localStorage
+      const favoriteThings = JSON.parse(localStorage.getItem('favoriteThings')) || [];
 
-          listItem.appendChild(deleteButton);
-            });
-          }
+      // Add event listener to form submission
+      document.getElementById('favoriteThingsForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Retrieve input value
+        const favoriteThingInput = document.getElementById('favoriteThingInput');
+        const favoriteThing = favoriteThingInput.value.trim();
+
+        if (favoriteThing !== '') {
+          favoriteThings.push(favoriteThing);
+          localStorage.setItem('favoriteThings', JSON.stringify(favoriteThings));
+          renderFavoriteThings();
+          favoriteThingInput.value = '';
         }
-    
-        // Initial render
-        renderFavoriteThings();
-      </script>
+      });
+
+      // Function to render favorite things
+      function renderFavoriteThings() {
+        const favoriteList = document.getElementById('favoriteList');
+        favoriteList.innerHTML = '';
+
+        if (favoriteThings.length === 0) {
+          favoriteList.innerHTML = '<p>No favorite things added.</p>';
+        } else {
+          favoriteThings.forEach((favoriteThing, index) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = favoriteThing;
+            favoriteList.appendChild(listItem);
+
+            const deleteButton = document.createElement('button');
+            deleteButton.type = 'button';
+            deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');
+            deleteButton.style.marginLeft = '20px';
+            deleteButton.style.marginTop = '5px';
+            deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+            deleteButton.addEventListener('click', () => {
+              favoriteThings.splice(index, 1);
+              localStorage.setItem('favoriteThings', JSON.stringify(favoriteThings));
+              renderFavoriteThings();
+            });
+
+            listItem.appendChild(deleteButton);
+          });
+        }
+      }
+
+      // Initial render
+      renderFavoriteThings();
+    </script>
+  </div>
 </body>
 </html>
