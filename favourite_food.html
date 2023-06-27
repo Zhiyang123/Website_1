@@ -74,6 +74,14 @@
       text-align: center;
       padding: 10px;
     }
+    .no-favorite-message {
+  color: #ff9e80; 
+  font-size: 18px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+
   </style>
 </head>
 <body>
@@ -119,7 +127,7 @@
         favoriteList.innerHTML = '';
 
         if (favoriteFoods.length === 0) {
-          favoriteList.innerHTML = '<p>No favorite foods added.</p>';
+          favoriteList.innerHTML = '<p class="no-favorite-message">No favorite foods added.</p>';
         } else {
           favoriteFoods.forEach((favoriteFood, index) => {
             const listItem = document.createElement('li');

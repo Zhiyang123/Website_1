@@ -74,6 +74,12 @@
       text-align: center;
       padding: 10px;
     }
+    .no-favorite-message {
+  color: #ff6384; 
+  font-size: 18px;
+  text-align: center;
+  margin-top: 10px;
+}
   </style>
 </head>
 <body>
@@ -119,7 +125,7 @@
         favoriteList.innerHTML = '';
 
         if (favoriteHobbies.length === 0) {
-          favoriteList.innerHTML = '<p>No favorite hobbies added.</p>';
+          favoriteList.innerHTML = '<p class="no-favorite-message">No favorite hobbies added.</p>';
         } else {
           favoriteHobbies.forEach((favoriteHobby, index) => {
             const listItem = document.createElement('li');
