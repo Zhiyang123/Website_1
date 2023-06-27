@@ -15,7 +15,7 @@
     }
     
     .hero-image {
-      background-image: url('hero-background.jpg');
+      background-image: url('snowball.jpg');
       background-size: cover;
       background-position: center;
       height: 100vh;
@@ -72,6 +72,13 @@
     .btn-utensils {
       background-color: #FFE8C2; /* pastel yellow */
       color: #C69400; /* pastel brown */
+    }
+
+    /* Responsive background image */
+    @media (max-width: 768px) {
+      .hero-image {
+        background-size: contain;
+      }
     }
   </style>
 </head>
