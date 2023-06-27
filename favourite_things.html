@@ -8,12 +8,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     body {
-      background-color: #e6f7ff; /* pastel blue */
+      background-color: #f3e5f5; /* pastel purple */
+      font-family: Arial, sans-serif;
     }
     h1 {
-      color: #ff9e80; /* pastel orange */
+      color: #aa00ff; /* pastel purple */
       margin-bottom: 30px;
       text-align: center;
+      font-size: 30px;
     }
     .form-group {
       margin-bottom: 15px;
@@ -21,28 +23,31 @@
     }
     .form-group label {
       font-weight: bold;
-      color: #7e57c2; /* pastel purple */
+      color: #673ab7; /* pastel purple */
       display: block;
       margin-bottom: 5px;
+      font-size: 18px;
     }
     .form-control {
-      border-color: #7e57c2; /* pastel purple */
+      border-color: #673ab7; /* pastel purple */
       background-color: transparent;
-      color: #7e57c2; /* pastel purple */
+      color: #673ab7; /* pastel purple */
       padding-left: 40px;
       font-family: 'Arial', sans-serif;
       font-size: 16px;
+      border-radius: 10px;
     }
     .form-control:focus {
-      box-shadow: 0 0 0 0.2rem rgba(126, 87, 194, 0.25); /* pastel purple */
+      box-shadow: 0 0 0 0.2rem rgba(103, 58, 183, 0.25); /* pastel purple */
     }
     .btn-custom {
-      background-color: #ff9e80; /* pastel orange */
+      background-color: #9c27b0; /* pastel purple */
       color: white;
       margin-right: 10px;
+      font-size: 16px;
     }
     .btn-custom:hover {
-      background-color: #ff6e40; /* darker shade of pastel orange */
+      background-color: #7b1fa2; /* darker shade of pastel purple */
     }
     .favorite-list {
       max-height: 300px;
@@ -50,14 +55,18 @@
       background-color: rgba(255, 255, 255, 0.8);
       border-radius: 5px;
       padding: 10px;
+      margin-top: 30px;
     }
     .favorite-item {
       margin-bottom: 10px;
       display: flex;
       align-items: center;
+      font-size: 18px;
+      color: #aa00ff; /* pastel purple */
     }
     .favorite-item i {
       margin-right: 10px;
+      color: #aa00ff; /* pastel purple */
     }
     .favorite-item p {
       margin: 0;
@@ -71,12 +80,14 @@
   <div class="container">
     <h1>Favorite Things</h1>
     <form id="favoriteThingsForm">
+      <div class="form-group">
         <label for="favoriteThingInput">Add Favorite Thing:</label>
         <div class="input-group">
-          <i class="fas fa-pencil-alt" style="position: absolute; top: 10px; left: 10px;"></i>
+          <i class="fas fa-pencil-alt" style="position: absolute; top: 12px; left: 12px;"></i>
           <input type="text" class="form-control" id="favoriteThingInput">
           <button type="submit" class="btn btn-custom"><i class="fas fa-plus"></i> Add</button>
         </div>
+      </div>
     </form>
 
     <ul id="favoriteList">
@@ -129,6 +140,31 @@
             });
 
             listItem.appendChild(deleteButton);
+          });
+        }
+      }
+
+      function renderFavoriteThings() {
+        favoriteList.innerHTML = '';
+
+        if (favoriteThings.length === 0) {
+          favoriteList.innerHTML = '<p>No favorite things added.</p>';
+        } else {
+          favoriteThings.forEach((favoriteThing, index) => {
+            const listItem = document.createElement('li');
+            listItem.classList.add('favorite-item');
+            listItem.innerHTML = `
+              <i class="fas fa-pencil-alt"></i>
+              <p>${favoriteThing}</p>
+              <button class="btn btn-danger btn-sm" style="margin-left: 20px;"><i class="fas fa-trash"></i></button>
+            `;
+            listItem.querySelector('button').addEventListener('click', () => {
+              favoriteThings.splice(index, 1);
+              localStorage.setItem('favoriteThings', JSON.stringify(favoriteThings));
+              renderFavoriteThings();
+            });
+
+            favoriteList.appendChild(listItem);
           });
         }
       }

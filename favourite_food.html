@@ -8,16 +8,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     body {
-      background-color: #fce4ec; /* pastel pink */
-      background-image: url('background-image.jpg');
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
+      background-color: #ffecd7; /* lightest shade of pastel orange */
+      font-family: Arial, sans-serif;
     }
     h1 {
-      color: #ff80ab; /* pastel pink */
+      color: #ff9e80; /* medium shade of pastel orange */
       margin-bottom: 30px;
       text-align: center;
+      font-size: 30px;
     }
     .form-group {
       margin-bottom: 15px;
@@ -25,28 +23,31 @@
     }
     .form-group label {
       font-weight: bold;
-      color: #c2185b; /* pastel pink */
+      color: #ff6e40; /* darkest shade of pastel orange */
       display: block;
       margin-bottom: 5px;
+      font-size: 18px;
     }
     .form-control {
-      border-color: #c2185b; /* pastel pink */
+      border-color: #ff6e40; /* darkest shade of pastel orange */
       background-color: transparent;
-      color: #c2185b; /* pastel pink */
+      color: #ff6e40; /* darkest shade of pastel orange */
       padding-left: 40px;
       font-family: 'Arial', sans-serif;
       font-size: 16px;
+      border-radius: 10px;
     }
     .form-control:focus {
-      box-shadow: 0 0 0 0.2rem rgba(194, 24, 91, 0.25); /* pastel pink */
+      box-shadow: 0 0 0 0.2rem rgba(255, 110, 64, 0.25); /* darkest shade of pastel orange */
     }
     .btn-custom {
-      background-color: #ff80ab; /* pastel pink */
+      background-color: #ff9e80; /* medium shade of pastel orange */
       color: white;
       margin-right: 10px;
+      font-size: 16px;
     }
     .btn-custom:hover {
-      background-color: #f48fb1; /* darker shade of pastel pink */
+      background-color: #ff7043; /* darker shade of pastel orange */
     }
     .favorite-list {
       max-height: 300px;
@@ -54,14 +55,18 @@
       background-color: rgba(255, 255, 255, 0.8);
       border-radius: 5px;
       padding: 10px;
+      margin-top: 30px;
     }
     .favorite-item {
       margin-bottom: 10px;
       display: flex;
       align-items: center;
+      font-size: 18px;
+      color: #ff9e80;
     }
     .favorite-item i {
       margin-right: 10px;
+      color: #ff9e80;
     }
     .favorite-item p {
       margin: 0;
@@ -75,71 +80,69 @@
   <div class="container">
     <h1>Favorite Food</h1>
     <form id="favoriteFoodsForm">
+      <div class="form-group">
         <label for="favoriteFoodInput">Add Favorite Food:</label>
         <div class="input-group">
-          <i class="fas fa-utensils" style="position: absolute; top: 10px; left: 10px;"></i>
+          <i class="fas fa-utensils" style="position: absolute; top: 12px; left: 12px;"></i>
           <input type="text" class="form-control" id="favoriteFoodInput">
           <button type="submit" class="btn btn-custom"><i class="fas fa-plus"></i> Add</button>
         </div>
+      </div>
     </form>
 
     <ul id="favoriteList">
       <!-- Favorite foods will be dynamically added here -->
-   </ul>
+    </ul>
 
-  <script>
-    
-    // Retrieve favorite things from localStorage
-    const favoriteFoods = JSON.parse(localStorage.getItem('favoriteFoods')) || [];
+    <script>
+      // Retrieve favorite things from localStorage
+      const favoriteFoods = JSON.parse(localStorage.getItem('favoriteFoods')) || [];
 
       // Add event listener to form submission
-    document.getElementById('favoriteFoodsForm').addEventListener('submit', function (event) {
-          event.preventDefault(); // Prevent form submission
-    
-          // Retrieve input value
-          const favoriteFoodInput = document.getElementById('favoriteFoodInput');
-          const favoriteFood = favoriteFoodInput.value.trim();
-    
-          if (favoriteFood !== '') {
-        favoriteFoods.push(favoriteFood);
-        localStorage.setItem('favoriteFoods', JSON.stringify(favoriteFoods));
-            renderFavoriteFoods();
-            favoriteFoodInput.value = '';
-      }
-        });
+      document.getElementById('favoriteFoodsForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent form submission
 
-   
-    // Function to render favorite foods
-    function renderFavoriteFoods() {
-      favoriteList.innerHTML = '';
+        // Retrieve input value
+        const favoriteFoodInput = document.getElementById('favoriteFoodInput');
+        const favoriteFood = favoriteFoodInput.value.trim();
 
-      if (favoriteFoods.length === 0) {
-        favoriteList.innerHTML = '<p>No favorite foods added.</p>';
-      } else {
-        favoriteFoods.forEach((favoriteFood, index) => {
-          const listItem = document.createElement('li');
-          listItem.textContent = favoriteFood;
-          favoriteList.appendChild(listItem);
+        if (favoriteFood !== '') {
+          favoriteFoods.push(favoriteFood);
+          localStorage.setItem('favoriteFoods', JSON.stringify(favoriteFoods));
+          renderFavoriteFoods();
+          favoriteFoodInput.value = '';
+        }
+      });
 
-          const deleteButton = document.createElement('button');
-          deleteButton.type = 'button';
-          deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');
-          deleteButton.style.marginLeft = '20px';
-          deleteButton.style.marginTop = '5px';
-          deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
-          deleteButton.addEventListener('click', () => {
-            favoriteFoods.splice(index, 1);
-            localStorage.setItem('favoriteFoods', JSON.stringify(favoriteFoods));
-            renderFavoriteFoods();
+      // Function to render favorite foods
+      function renderFavoriteFoods() {
+        favoriteList.innerHTML = '';
+
+        if (favoriteFoods.length === 0) {
+          favoriteList.innerHTML = '<p>No favorite foods added.</p>';
+        } else {
+          favoriteFoods.forEach((favoriteFood, index) => {
+            const listItem = document.createElement('li');
+            listItem.classList.add('favorite-item');
+            listItem.innerHTML = `
+              <i class="fas fa-utensils"></i>
+              <p>${favoriteFood}</p>
+              <button class="btn btn-danger btn-sm" style="margin-left: 20px;"><i class="fas fa-trash"></i></button>
+            `;
+            listItem.querySelector('button').addEventListener('click', () => {
+              favoriteFoods.splice(index, 1);
+              localStorage.setItem('favoriteFoods', JSON.stringify(favoriteFoods));
+              renderFavoriteFoods();
+            });
+
+            favoriteList.appendChild(listItem);
           });
-
-          listItem.appendChild(deleteButton);
-        });
+        }
       }
-    }
 
-    // Initial render
-    renderFavoriteFoods();
-  </script>
+      // Initial render
+      renderFavoriteFoods();
+    </script>
+  </div>
 </body>
 </html>
